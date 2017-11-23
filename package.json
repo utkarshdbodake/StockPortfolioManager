@@ -1,0 +1,37 @@
+{
+  "name": "stock_portfolio_manager",
+  "version": "1.0.0",
+  "description": "Portfolio manager for stocks.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/utkarshdbodake/StockPortfolioManager.git"
+  },
+  "engines": {
+    "node": ">=8.9.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "4.16.2",
+    "config": "1.28.1",
+    "lodash": "4.17.4",
+    "mongodb": "2.2.33"
+  },
+  "devDependencies": {
+    "should": "11.2.0"
+  },
+  "keywords": [
+    "stock",
+    "portfolio",
+    "investment",
+    "wealth"
+  ],
+  "author": "Utkarsh Bodake",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/utkarshdbodake/StockPortfolioManager/issues"
+  },
+  "homepage": "https://github.com/utkarshdbodake/StockPortfolioManager#readme"
+}

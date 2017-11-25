@@ -1,12 +1,41 @@
 'use strict'
 
 const express = require('express')
-const constants = require('./lib/constants')
-const routes = require('./lib/routes')
 const app = express()
+const bodyParser = require('body-parser')
+const Constants = require('./lib/constants')
+const Routes = require('./lib/routes')
+const MongoConnection = require('./lib/dao/connect')
 
-// Connect all our routes to our application.
-app.use('/', routes)
+/**
+ * Initialize the server.
+ *
+ * - Connect to mongo.
+ * - Load the routes & start listening to mentioned Port.
+ *
+ * @return {Promise.<void>}
+ * @private
+ */
+const _init = async function () {
 
-// Turn on the server.
-app.listen(constants.SERVER.PORT, () => console.log(`App listening on port ${constants.SERVER.PORT}`))
+  await MongoConnection.init()
+
+  // Parse various different custom JSON types as JSON
+  app.use(bodyParser.json({ type: 'application/json' }))
+
+  // Connect all our routes to our application.
+  app.use('/', Routes)
+
+  // Turn on the server.
+  app.listen(Constants.SERVER.PORT, () => console.log(`App listening on port ${Constants.SERVER.PORT}`))
+}
+
+try {
+  _init()
+} catch (err) {
+  console.log(`Something went wrong while starting up the server. Exiting.\nError: ${JSON.stringify(err)}`)
+
+  // Note: If something goes wrong while starting up the server (like mongo connection failure),
+  // then server startup is terminated explicitly.
+  process.exit(1)
+}

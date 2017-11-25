@@ -5,6 +5,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const Constants = require('./lib/constants')
 const Routes = require('./lib/routes')
+const PortfolioRoutes = require('./lib/routes/portfolioRoutes')
+const TradeRoutes = require('./lib/routes/tradeRoutes')
 const MongoConnection = require('./lib/dao/connect')
 
 /**
@@ -25,6 +27,8 @@ const _init = async function () {
 
   // Connect all our routes to our application.
   app.use('/', Routes)
+  app.use('/', PortfolioRoutes)
+  app.use('/', TradeRoutes)
 
   // Turn on the server.
   app.listen(Constants.SERVER.PORT, () => console.log(`App listening on port ${Constants.SERVER.PORT}`))

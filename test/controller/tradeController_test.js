@@ -6,14 +6,17 @@ const should = require('should')
 const simple = require('simple-mock')
 const rewire = require('rewire')
 const TradesFixture = require('./../fixtures/trades')
+const TradesController = require('./../../lib/controller/tradeController')
 const TradesModel = require('./../../lib/dao/model/trades')
 const TradesDao = require('./../../lib/dao/tradesDao')
 const MongoConnection = require('./../../lib/dao/connect')
+const Error = require('./../../lib/constants/error')
 
 const trade1 = TradesFixture.getTrades().trade1
+const trade2 = TradesFixture.getTrades().trade2
 
 
-describe('tradesDao', function () {
+describe('tradesController', function () {
 
   before(async () => {
     await MongoConnection.init(true)
@@ -26,9 +29,9 @@ describe('tradesDao', function () {
 
   describe('trade operations', function () {
 
-    it('add trade entity successfully', async function () {
+    it('buy trade entity successfully', async function () {
 
-      const response = await TradesDao.addTrade(trade1)
+      const response = await TradesController.addTrade(trade1)
 
       const trade = await TradesDao.getTrade(response._id)
 
@@ -40,31 +43,13 @@ describe('tradesDao', function () {
       should.exist(trade.tradedAt)
     })
 
-    it('update trade entity successfully', async function () {
+    it('cannot sell due to insufficient stock quantity', function (done) {
 
-      const response = await TradesDao.addTrade(trade1)
-
-      await TradesDao.updateTrade(response._id, 1, 1)
-
-      const trade = await TradesDao.getTrade(response._id)
-
-      trade.portfolioId.should.be.eql(trade1.portfolioId)
-      trade.stock.should.be.eql(trade1.stock)
-      trade.type.should.be.eql(trade1.type)
-      trade.quantity.should.be.eql(1)
-      trade.price.should.be.eql(1)
-      should.exist(trade.tradedAt)
-    })
-
-    it('archive trade entity successfully', async function () {
-
-      const response = await TradesDao.addTrade(trade1)
-
-      await TradesDao.archiveTrade(response._id)
-
-      const trade = await TradesDao.getTrade(response._id)
-
-      should.not.exist(trade)
+      TradesController.addTrade(trade2)
+        .catch(err => {
+          err.code.should.eql(Error.TRADE.INSUFFICIENT_STOCK_QUANTITY.CODE)
+          done()
+        })
     })
   })
 })

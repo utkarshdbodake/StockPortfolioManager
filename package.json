@@ -14,7 +14,7 @@
     "precommit": "npm run lint",
     "start": "node index.js",
     "lint": "eslint *.js ./lib/**/*.js && echo Lint Passed ❤",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test istanbul --include-all-sources cover _mocha -- -u bdd $(find test -name '*.js') && istanbul check-coverage && echo All tests passed ?"
   },
   "dependencies": {
     "express": "4.16.2",
@@ -35,7 +35,9 @@
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-node": "5.2.1",
     "eslint-plugin-promise": "3.6.0",
-    "eslint-plugin-standard": "3.0.1"
+    "eslint-plugin-standard": "3.0.1",
+    "mocha": "3.0.2",
+    "istanbul": "0.4.5"
   },
   "keywords": [
     "stock",

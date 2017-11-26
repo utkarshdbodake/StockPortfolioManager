@@ -127,7 +127,7 @@ describe('portfolioController', function () {
 
       const holdings = await PortfolioController.getHoldings(TradesFixture.getPortfolioId())
 
-      holdings.should.eql({})
+      holdings.should.eql('There are no holdings as of now.')
     })
   })
 

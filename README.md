@@ -13,6 +13,37 @@ A web-server (with HTTP APIs) that manages stock portfolios.
 - Go through below docs, to understand the ```Entities``` and supported ```API```'s.
 - Optional: You can also run test cases by ```npm test```.
 -----
+# Entity
+- Logically there are 3 entities: `Portfolio, Stock & Trade`. If we were to design our systems in SQL DB, then there would have been 3 tables for each, having 1:n relationship between (Portfolio to Stock) and (Stock to Trade) respectively.
+- But as we wanted to store data in NOSQL datastore, we have clubbed these entities into single model as shown below. As we don't want to maintain any explicit relationship between tables in NOSQL.
+- Also among all the NOSQL DB's we have chosen MongoDB document data store, bcoz it provides atomicity at the document level & is strongly consistent (providing CP of the CAP theorem).
+    ```
+    {
+        "_id": Mongo ObjectId,
+        "portfolioId": String,
+        "stock": String,
+        "type": String,
+        "quantity": Integer,
+        "price": Float,
+        "tradedAt": Date,
+        "isArchived": Boolean
+    }
+    
+    _id             : Uniquesly identifies the trade. No other document can have the same value. Thus integrity is maintained across all the trades.        
+    portfolioId     : This field is indexed. Identifies portfolios.
+    stock           : This field is indexed. Identifies stocks.
+    type            : Enum having value either "buy" or "sell"
+    quantity        : Quantity of stocks in the trade.
+    price           : Price of stock in the trade.
+    tradedAt        : UTC Date of the trade.
+    isArchived      : If true, denotes trade is archived
+    ```
+
+- As per our use case the queries which would be much more frequent are: Get portfolio, get trades of a stock & get trades. So as a result we are indexing **portfolioId** and **stock**. By default **_id** is indexed by MongoDB.
+- Why **id** field is **String** data type instead of **Number** data type for **tradeId and portfolioId**? --> Because in JS (as most of our web clients would be in JS) the Number cannot go beyond *9007199254740991*. So we don't want to limit the number of records in our table by mere **JS language's data type limitation**! That's why all id's are choosen to be of *String* data type.
+
+-----
+
 # API
 ### GET Portfolio
 

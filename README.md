@@ -117,6 +117,13 @@ A web-server (with HTTP APIs) that manages stock portfolios.
     Failure response 
     Status code: 200 OK
     
+    When the current value of stock is not present on Yahoo finance
+    {
+        "code": 5002,
+        "success": false,
+        "message": "Stock is not available on yahoo finance., Stock name: <stock name>"
+    }
+    
     When portfolio id is not present `or` if there were no trades performed yet.
     {
         "success": false,

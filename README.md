@@ -29,7 +29,7 @@ A web-server (with HTTP APIs) that manages stock portfolios.
         "isArchived": Boolean
     }
     
-    _id             : Uniquesly identifies the trade. No other document can have the same value. Thus integrity is maintained across all the trades.        
+    _id             : Uniquely identifies the trade. No other document can have the same value. Thus integrity is maintained across all the trades.        
     portfolioId     : This field is indexed. Identifies portfolios.
     stock           : This field is indexed. Identifies stocks.
     type            : Enum having value either "buy" or "sell"
@@ -236,7 +236,7 @@ A web-server (with HTTP APIs) that manages stock portfolios.
     ```
     ```
     Failure response 
-    Status code: 400 OK
+    Status code: 400
     
     If given tradeId is not present in DB.
     {
@@ -274,7 +274,7 @@ A web-server (with HTTP APIs) that manages stock portfolios.
     ```
     ```
     Failure response 
-    Status code: 400 OK
+    Status code: 400
     
     If given tradeId is not present in DB.
     {

@@ -191,7 +191,7 @@ A web-server (with HTTP APIs) that manages stock portfolios.
     ```
     ```
     Failure response 
-    Status code: 200 OK
+    Status code: 400
     
     When user tries to sell a stock, but given quantity exceeds than what he has.
     {
